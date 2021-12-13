@@ -2,7 +2,6 @@ import axios from 'axios';
 import express from 'express';
 import cheerio from 'cheerio';
 import moment from 'moment';
-import { query } from 'express-validator';
 
 const router = express.Router();
 

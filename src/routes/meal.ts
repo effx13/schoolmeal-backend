@@ -6,7 +6,7 @@ import moment from 'moment';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  const { region, schulCode, schulCrseScCode, schulKndScCode, schMmealScCode, schYmd } = req.query;
+  const { region, schulCode, schulCrseScCode, schMmealScCode, schYmd } = req.query;
   const url: string = `http://stu.${region}.go.kr/sts_sci_md01_001.do?schulCode=${schulCode}&schulCrseScCode=${String(schulCrseScCode).replace(/(^0+)/, '')}&schMmealScCode=${schMmealScCode}&schYmd=${schYmd}`;
   axios({
     method: 'get',

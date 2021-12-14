@@ -27,14 +27,14 @@ router.get('/', (req, res) => {
         }
         return 0;
       });
-      schools = schools.slice(0,5).map((school: { [x: string]: any; sqlAction: any; zipAdres: any; atptOfcdcNm: any; atptOfcdcOrgCode: any; schulCrseScCodeNm: any; })=>{
-        const {sqlAction, zipAdres, atptOfcdcNm, atptOfcdcOrgCode, schulCrseScCodeNm, ...rest} = school;
+      schools = schools.slice(0, 5).map((school: { [x: string]: any; sqlAction: any; zipAdres: any; atptOfcdcNm: any; atptOfcdcOrgCode: any; schulCrseScCodeNm: any }) => {
+        const { sqlAction, zipAdres, atptOfcdcNm, atptOfcdcOrgCode, schulCrseScCodeNm, ...rest } = school;
         return rest;
       });
       const data = {
         status: 'OK',
         count: schools.length,
-        schools
+        schools,
       };
       res.json(data);
     })

@@ -5,6 +5,17 @@ import moment from 'moment';
 
 const router = express.Router();
 
+function toText(str: string | null): string {
+  if (str === null || str === undefined) return '';
+  let returnStr = str;
+  returnStr = returnStr.replace(/&gt;/gi, '>');
+  returnStr = returnStr.replace(/&lt;/gi, '<');
+  returnStr = returnStr.replace(/&qout;/gi, '"');
+  returnStr = returnStr.replace(/&nbsp;/gi, ' ');
+  returnStr = returnStr.replace(/&amp;/gi, '&');
+  return returnStr;
+}
+
 router.get('/', (req, res) => {
   const { region, schulCode, schulCrseScCode, schMmealScCode, schYmd } = req.query;
   const url: string = `http://stu.${region}.go.kr/sts_sci_md01_001.do?schulCode=${schulCode}&schulCrseScCode=${String(schulCrseScCode).replace(/(^0+)/, '')}&schMmealScCode=${schMmealScCode}&schYmd=${schYmd}`;
@@ -15,7 +26,7 @@ router.get('/', (req, res) => {
     .then((response) => {
       const $ = cheerio.load(response.data);
       const day: number = Number(moment(String(schYmd), 'YYYY.MM.DD').day()) + 2;
-      const meal = $(`#contents > div:nth-child(2) > table > tbody > tr:nth-child(2) > td:nth-child(${day})`).html()?.split('<br>');
+      const meal = toText($(`#contents > div:nth-child(2) > table > tbody > tr:nth-child(2) > td:nth-child(${day})`).html()).split('<br>');
       meal?.pop();
       if (meal?.length === 0) {
         throw new Error('NoMealError');
